@@ -11,5 +11,6 @@ namespace NegotiationApp.Domain.Interfaces
     {
         Task<IEnumerable<Product>> GetAllAsync();
         Task<Product> GetByIdAsync(int id);
+        Task AddAsync(Product product);
     }
 }
