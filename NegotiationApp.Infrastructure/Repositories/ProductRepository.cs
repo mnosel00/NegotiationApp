@@ -1,5 +1,7 @@
-﻿using NegotiationApp.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using NegotiationApp.Domain.Entities;
 using NegotiationApp.Domain.Interfaces;
+using NegotiationApp.Infrastructure.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,19 +12,21 @@ namespace NegotiationApp.Infrastructure.Repositories
 {
     public class ProductRepository : IProductRepository
     {
-        public Task AddAsync(Product product)
+        private readonly NegotiationDbContext _context;
+
+        public ProductRepository(NegotiationDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Task<IEnumerable<Product>> GetAllAsync()
+        public async Task AddAsync(Product product)
         {
-            throw new NotImplementedException();
+            await _context.Products.AddAsync(product);
+            await _context.SaveChangesAsync();
         }
 
-        public Task<Product> GetByIdAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<IEnumerable<Product>> GetAllAsync() => await _context.Products.ToListAsync();
+
+        public async Task<Product?> GetByIdAsync(int id) => await _context.Products.FindAsync(id);
     }
 }
