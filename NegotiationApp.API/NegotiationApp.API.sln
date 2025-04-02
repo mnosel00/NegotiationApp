@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NegotiationApp.Application"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NegotiationApp.Domain", "..\NegotiationApp.Domain\NegotiationApp.Domain.csproj", "{9085D08C-0596-4C57-8D01-E40774FD4F0E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NegotiationApp.Infrastructure", "..\NegotiationApp.Infrastructure\NegotiationApp.Infrastructure.csproj", "{9DDD8224-CA0F-4FC9-9006-E950E0EE575A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{9085D08C-0596-4C57-8D01-E40774FD4F0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9085D08C-0596-4C57-8D01-E40774FD4F0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9085D08C-0596-4C57-8D01-E40774FD4F0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DDD8224-CA0F-4FC9-9006-E950E0EE575A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DDD8224-CA0F-4FC9-9006-E950E0EE575A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DDD8224-CA0F-4FC9-9006-E950E0EE575A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DDD8224-CA0F-4FC9-9006-E950E0EE575A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
