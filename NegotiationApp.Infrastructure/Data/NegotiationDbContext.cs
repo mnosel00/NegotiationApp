@@ -11,9 +11,18 @@ namespace NegotiationApp.Infrastructure.Data
     public class NegotiationDbContext : DbContext
     {
         public NegotiationDbContext(DbContextOptions<NegotiationDbContext> options) : base(options) { }
-        
+
         public DbSet<Product> Products { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Product>(entity =>
+            {
+                entity.Property(e => e.Price)
+                      .HasColumnType("decimal(18,2)");
+            });
 
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
