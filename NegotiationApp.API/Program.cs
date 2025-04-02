@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using NegotiationApp.Application.Interfaces;
+using NegotiationApp.Application.Services;
+using NegotiationApp.Domain.Interfaces;
 using NegotiationApp.Infrastructure.Data;
+using NegotiationApp.Infrastructure.Repositories;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +15,9 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddDbContext<NegotiationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 var app = builder.Build();
 

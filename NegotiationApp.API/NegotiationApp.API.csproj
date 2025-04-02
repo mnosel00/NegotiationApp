@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NegotiationApp.Application\NegotiationApp.Application.csproj" />
     <ProjectReference Include="..\NegotiationApp.Infrastructure\NegotiationApp.Infrastructure.csproj" />
   </ItemGroup>
 
