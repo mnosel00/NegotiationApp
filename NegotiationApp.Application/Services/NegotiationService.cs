@@ -33,12 +33,13 @@ namespace NegotiationApp.Application.Services
             await _negotiationRepository.AddAsync(negotiation);
         }
 
-        public async Task CheckExpirationAsync(int id)
+        public async Task<TimeSpan> CheckExpirationAsync(int id)
         {
             var negotiation = await _negotiationRepository.GetByIdAsync(id);
 
-            negotiation.CheckExpiration();
+            var timeRemaining = negotiation.CheckExpiration();
             await _negotiationRepository.UpdateAsync(negotiation);
+            return timeRemaining;
         }
 
         public async Task<IEnumerable<NegotiationDto>> GetAllNegotiationsAsync()

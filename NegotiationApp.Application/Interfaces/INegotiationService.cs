@@ -15,6 +15,6 @@ namespace NegotiationApp.Application.Interfaces
         Task ProposeNewPriceAsync(int id, decimal newPrice);
         Task AcceptNegotiationAsync(int id);
         Task RejectNegotiationAsync(int id);
-        Task CheckExpirationAsync(int id);
+        Task<TimeSpan> CheckExpirationAsync(int id);
     }
 }

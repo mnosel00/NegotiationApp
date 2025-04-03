@@ -102,12 +102,12 @@ namespace NegotiationApp.API.Controllers
         }
 
         [HttpPut("{id}/check-expiration")]
-        public async Task<IActionResult> CheckExpiration(int id)
+        public async Task<ActionResult<TimeSpan>> CheckExpiration(int id)
         {
             try
             {
-                await _negotiationService.CheckExpirationAsync(id);
-                return NoContent();
+                var timeRemaining = await _negotiationService.CheckExpirationAsync(id);
+                return Ok(timeRemaining);
             }
             catch (KeyNotFoundException)
             {

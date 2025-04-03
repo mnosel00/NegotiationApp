@@ -32,8 +32,8 @@ namespace NegotiationApp.Domain.Entities
 
         public void ProposeNewPrice(decimal newPrice)
         {
-            if (Status != NegotiationStatus.Pending)
-                throw new InvalidOperationException("Cannot propose a new price on a closed negotiation.");
+            if (Status == NegotiationStatus.Expired)
+                throw new InvalidOperationException("Cannot propose a new price on an expired negotiation.");
 
             if (Attempts >= MaxAttempts)
                 throw new InvalidOperationException("Maximum negotiation attempts reached.");
@@ -44,6 +44,7 @@ namespace NegotiationApp.Domain.Entities
             ProposedPrice = newPrice;
             ProposedAt = DateTime.UtcNow;
             Attempts++;
+            Status = NegotiationStatus.Pending;
         }
 
         public void Accept()
@@ -69,12 +70,18 @@ namespace NegotiationApp.Domain.Entities
             }
         }
 
-        public void CheckExpiration()
+        public TimeSpan CheckExpiration()
         {
-            if (Status == NegotiationStatus.Pending && (DateTime.UtcNow - ProposedAt).TotalDays > ExpirationDays)
+            if (Status == NegotiationStatus.Pending)
             {
-                Status = NegotiationStatus.Expired;
+                var timeRemaining = ProposedAt.AddDays(ExpirationDays) - DateTime.UtcNow;
+                if (timeRemaining.TotalDays <= 0)
+                {
+                    Status = NegotiationStatus.Expired;
+                }
+                return timeRemaining;
             }
+            return TimeSpan.Zero;
         }
     }
 
