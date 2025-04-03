@@ -24,7 +24,7 @@ namespace NegotiationApp.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNegotiation([FromBody] NegotiationDto negotiationDto)
+        public async Task<IActionResult> AddNegotiation([FromBody] CreateNegotiationDto negotiationDto)
         {
             if (!ModelState.IsValid)
             {

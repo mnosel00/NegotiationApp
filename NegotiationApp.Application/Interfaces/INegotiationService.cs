@@ -11,7 +11,7 @@ namespace NegotiationApp.Application.Interfaces
     {
         Task<IEnumerable<NegotiationDto>> GetAllNegotiationsAsync();
         Task<NegotiationDto?> GetNegotiationByIdAsync(int id);
-        Task AddNegotiationAsync(NegotiationDto negotiationDto);
+        Task AddNegotiationAsync(CreateNegotiationDto negotiationDto);
         Task ProposeNewPriceAsync(int id, decimal newPrice);
         Task AcceptNegotiationAsync(int id);
         Task RejectNegotiationAsync(int id);

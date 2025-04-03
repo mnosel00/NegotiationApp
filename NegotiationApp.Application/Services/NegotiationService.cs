@@ -27,7 +27,7 @@ namespace NegotiationApp.Application.Services
             await _negotiationRepository.UpdateAsync(negotiation);
         }
 
-        public async Task AddNegotiationAsync(NegotiationDto negotiationDto)
+        public async Task AddNegotiationAsync(CreateNegotiationDto negotiationDto)
         {
             var negotiation = new Negotiation(negotiationDto.ProductId, negotiationDto.ProposedPrice);
             await _negotiationRepository.AddAsync(negotiation);
