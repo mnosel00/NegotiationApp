@@ -14,9 +14,9 @@ namespace NegotiationApp.Application.DTOs
         public decimal ProposedPrice { get; }
         public DateTime ProposedAt { get; }
         public int Attempts { get; }
-        public NegotiationStatus Status { get; }
+        public string Status { get; }
 
-        public NegotiationDto(int productId, decimal proposedPrice, DateTime proposedAt, int attempts, NegotiationStatus status)
+        public NegotiationDto(int productId, decimal proposedPrice, DateTime proposedAt, int attempts, string status)
         {
             ProductId = productId;
             ProposedPrice = proposedPrice;

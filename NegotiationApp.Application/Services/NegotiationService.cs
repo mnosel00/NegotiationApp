@@ -45,14 +45,14 @@ namespace NegotiationApp.Application.Services
         public async Task<IEnumerable<NegotiationDto>> GetAllNegotiationsAsync()
         {
             var negotiations = await _negotiationRepository.GetAllAsync();
-            return negotiations.Select(n => new NegotiationDto(n.ProductId, n.ProposedPrice, n.ProposedAt, n.Attempts, n.Status));
+            return negotiations.Select(n => new NegotiationDto(n.ProductId, n.ProposedPrice, n.ProposedAt, n.Attempts, n.Status.ToString()));
         }
 
         public async Task<NegotiationDto?> GetNegotiationByIdAsync(int id)
         {
             var negotiation = await _negotiationRepository.GetByIdAsync(id);
 
-            return new NegotiationDto(negotiation.ProductId, negotiation.ProposedPrice, negotiation.ProposedAt, negotiation.Attempts, negotiation.Status);
+            return new NegotiationDto(negotiation.ProductId, negotiation.ProposedPrice, negotiation.ProposedAt, negotiation.Attempts, negotiation.Status.ToString());
         }
 
         public async Task ProposeNewPriceAsync(int id, decimal newPrice)
