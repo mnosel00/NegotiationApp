@@ -13,8 +13,8 @@ namespace NegotiationApp.Infrastructure.Data
         public NegotiationDbContext(DbContextOptions<NegotiationDbContext> options) : base(options) { }
 
         public DbSet<Product> Products { get; set; }
-
         public DbSet<Negotiation> Negotiations { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

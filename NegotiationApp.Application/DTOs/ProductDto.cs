@@ -15,11 +15,6 @@ namespace NegotiationApp.Application.DTOs
 
         public ProductDto(string name, decimal price)
         {
-            if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentException("Name cannot be null or empty.", nameof(name));
-            if (price <= 0)
-                throw new ArgumentException("Price must be greater than zero.", nameof(price));
-
             Name = name;
             Price = price;
         }
