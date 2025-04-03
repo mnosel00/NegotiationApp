@@ -8,6 +8,9 @@ namespace NegotiationApp.Domain.Entities
 {
     public class Negotiation
     {
+        private const int MaxAttempts = 3;
+        private const int ExpirationDays = 7;
+
         public int Id { get; private set; }
         public int ProductId { get; private set; }
         public decimal ProposedPrice { get; private set; }
@@ -15,9 +18,11 @@ namespace NegotiationApp.Domain.Entities
         public int Attempts { get; private set; }
         public NegotiationStatus Status { get; private set; }
 
-        private Negotiation() { }
         public Negotiation(int productId, decimal proposedPrice)
         {
+            if (proposedPrice <= 0)
+                throw new ArgumentException("Proposed price must be greater than zero.", nameof(proposedPrice));
+
             ProductId = productId;
             ProposedPrice = proposedPrice;
             ProposedAt = DateTime.UtcNow;
@@ -25,25 +30,60 @@ namespace NegotiationApp.Domain.Entities
             Status = NegotiationStatus.Pending;
         }
 
-        public void UpdateProposedPrice(decimal newPrice)
+        public void ProposeNewPrice(decimal newPrice)
         {
+            if (Status != NegotiationStatus.Pending)
+                throw new InvalidOperationException("Cannot propose a new price on a closed negotiation.");
+
+            if (Attempts >= MaxAttempts)
+                throw new InvalidOperationException("Maximum negotiation attempts reached.");
+
+            if (newPrice <= 0)
+                throw new ArgumentException("New price must be greater than zero.", nameof(newPrice));
+
             ProposedPrice = newPrice;
             ProposedAt = DateTime.UtcNow;
             Attempts++;
         }
 
-        public void SetStatus(NegotiationStatus status)
+        public void Accept()
         {
-            Status = status;
+            if (Status != NegotiationStatus.Pending)
+                throw new InvalidOperationException("Only pending negotiations can be accepted.");
+
+            Status = NegotiationStatus.Accepted;
         }
 
-
-        public enum NegotiationStatus
+        public void Reject()
         {
-            Pending,
-            Accepted,
-            Rejected,
-            Expired
+            if (Status != NegotiationStatus.Pending)
+                throw new InvalidOperationException("Only pending negotiations can be rejected.");
+
+            if (Attempts >= MaxAttempts)
+            {
+                Status = NegotiationStatus.Expired;
+            }
+            else
+            {
+                Status = NegotiationStatus.Rejected;
+            }
+        }
+
+        public void CheckExpiration()
+        {
+            if (Status == NegotiationStatus.Pending && (DateTime.UtcNow - ProposedAt).TotalDays > ExpirationDays)
+            {
+                Status = NegotiationStatus.Expired;
+            }
         }
     }
+
+    public enum NegotiationStatus
+    {
+        Pending,
+        Accepted,
+        Rejected,
+        Expired
+    }
 }
+
