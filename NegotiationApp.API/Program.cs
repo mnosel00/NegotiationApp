@@ -19,6 +19,9 @@ builder.Services.AddDbContext<NegotiationDbContext>(options =>
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
 
+builder.Services.AddScoped<INegotiationRepository, NegotiationRepository>();
+builder.Services.AddScoped<INegotiationService, NegotiationService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
