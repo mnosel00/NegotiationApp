@@ -14,6 +14,8 @@ namespace NegotiationApp.Infrastructure.Data
 
         public DbSet<Product> Products { get; set; }
 
+        public DbSet<Negotiation> Negotiations { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Product>(entity =>
@@ -21,6 +23,13 @@ namespace NegotiationApp.Infrastructure.Data
                 entity.Property(e => e.Price)
                       .HasColumnType("decimal(18,2)");
             });
+
+            modelBuilder.Entity<Negotiation>(entity =>
+            {
+                entity.Property(e => e.ProposedPrice)
+                      .HasColumnType("decimal(18,2)");
+            });
+
 
             base.OnModelCreating(modelBuilder);
         }
