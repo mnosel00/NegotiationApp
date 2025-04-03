@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NegotiationApp.Application.DTOs;
 using NegotiationApp.Application.Interfaces;
@@ -17,6 +18,7 @@ namespace NegotiationApp.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Policy = "AdminPolicy")]
         public async Task<ActionResult<IEnumerable<NegotiationDto>>> GetAllNegotiations()
         {
             var negotiations = await _negotiationService.GetAllNegotiationsAsync();
@@ -24,6 +26,7 @@ namespace NegotiationApp.API.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> AddNegotiation([FromBody] CreateNegotiationDto negotiationDto)
         {
             if (!ModelState.IsValid)
@@ -36,6 +39,7 @@ namespace NegotiationApp.API.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(Policy = "AdminPolicy")]
         public async Task<ActionResult<NegotiationDto>> GetNegotiationById(int id)
         {
             var negotiation = await _negotiationService.GetNegotiationByIdAsync(id);
@@ -48,6 +52,7 @@ namespace NegotiationApp.API.Controllers
         }
 
         [HttpPut("{id}/propose")]
+        [AllowAnonymous]
         public async Task<IActionResult> ProposeNewPrice(int id, [FromBody] decimal newPrice)
         {
             try
@@ -66,6 +71,7 @@ namespace NegotiationApp.API.Controllers
         }
 
         [HttpPut("{id}/accept")]
+        [Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> AcceptNegotiation(int id)
         {
             try
@@ -84,6 +90,7 @@ namespace NegotiationApp.API.Controllers
         }
 
         [HttpPut("{id}/reject")]
+        [Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> RejectNegotiation(int id)
         {
             try
@@ -102,6 +109,7 @@ namespace NegotiationApp.API.Controllers
         }
 
         [HttpPut("{id}/check-expiration")]
+        [Authorize(Policy = "AdminPolicy")]
         public async Task<ActionResult<TimeSpan>> CheckExpiration(int id)
         {
             try

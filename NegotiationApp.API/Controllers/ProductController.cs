@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NegotiationApp.Application.DTOs;
 using NegotiationApp.Application.Interfaces;
@@ -17,6 +18,7 @@ namespace NegotiationApp.API.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<ProductDto>>> GetAllProducts()
         {
             var products = await _productService.GetAllProductsAsync();
@@ -24,6 +26,7 @@ namespace NegotiationApp.API.Controllers
         }
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<ProductDto>> GetProductById(int id)
         {
             var product = await _productService.GetProductByIdAsync(id);
@@ -36,6 +39,7 @@ namespace NegotiationApp.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> AddProduct([FromBody] ProductDto productDto)
         {
             if (!ModelState.IsValid)
