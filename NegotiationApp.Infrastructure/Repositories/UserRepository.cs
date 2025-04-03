@@ -1,4 +1,7 @@
-﻿using NegotiationApp.Domain.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using NegotiationApp.Domain.Entities;
+using NegotiationApp.Domain.Interfaces;
+using NegotiationApp.Infrastructure.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +12,16 @@ namespace NegotiationApp.Infrastructure.Repositories
 {
     public class UserRepository : IUserRepository
     {
+        private readonly NegotiationDbContext _context;
+        public UserRepository(NegotiationDbContext context)
+        {
+            _context = context;
+        }
+
+        public async Task AddAsync(User user)
+        {
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
+        }
     }
 }
