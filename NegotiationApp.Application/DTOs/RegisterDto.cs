@@ -9,15 +9,13 @@ namespace NegotiationApp.Application.DTOs
 {
     public class RegisterDto
     {
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public Role Role { get; set; }
+        public string Username { get; private set; }
+        public string Password { get; private set; }
 
-        public RegisterDto(string username, string password, Role role)
+        public RegisterDto(string username, string password)
         {
             Username = username;
             Password = password;
-            Role = role;
         }
     }
 }

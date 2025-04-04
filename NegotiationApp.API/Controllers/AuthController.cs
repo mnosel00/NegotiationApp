@@ -36,7 +36,7 @@ namespace NegotiationApp.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
         {
-            var user = new User(registerDto.Username, null, registerDto.Role);
+            var user = new User(registerDto.Username, null);
             await _userService.AddUserAsync(user, registerDto.Password);
             return Ok();
         }

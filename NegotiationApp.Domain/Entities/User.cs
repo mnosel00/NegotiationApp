@@ -11,23 +11,16 @@ namespace NegotiationApp.Domain.Entities
         public int Id { get; private set; }
         public string Username { get; private set; }
         public string PasswordHash { get; private set; }
-        public Role Role { get; private set; }
+        
 
-        public User(string username, string passwordHash, Role role)
+        public User(string username, string passwordHash)
         {
             Username = username;
             PasswordHash = passwordHash;
-            Role = role;
         }
         public void SetPasswordHash(string passwordHash)
         {
             PasswordHash = passwordHash;
         }
-    }
-
-    public enum Role
-    {
-        Admin,
-        User
     }
 }
