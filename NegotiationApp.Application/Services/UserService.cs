@@ -26,19 +26,24 @@ namespace NegotiationApp.Application.Services
             _configuration = configuration;
         }
 
-        public async Task<User> AuthenticateAsync(string username, string password)
+        public async Task<(User user, string error)> AuthenticateAsync(string username, string password)
         {
             var user = await _userRepository.GetByUsernameAsync(username);
             if (user == null || _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password) == PasswordVerificationResult.Failed)
             {
-                return null;
+                return (null, "username or password is incorrect");
             }
 
-            return user;
+            return (user,null);
         }
 
         public async Task AddUserAsync(User user, string password)
         {
+            if (await _userRepository.UsernameExistsAsync(user.Username))
+            {
+                throw new InvalidOperationException("Username already exists.");
+            }
+
             user.SetPasswordHash(_passwordHasher.HashPassword(user, password));
             await _userRepository.AddAsync(user);
         }

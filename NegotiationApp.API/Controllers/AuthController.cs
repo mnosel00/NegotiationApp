@@ -22,11 +22,12 @@ namespace NegotiationApp.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
-            var user = await _userService.AuthenticateAsync(loginDto.Username, loginDto.Password);
+            var (user, error) = await _userService.AuthenticateAsync(loginDto.Username, loginDto.Password);
+
 
             if (user == null)
             {
-                return Unauthorized();
+                return BadRequest(new { message = error });
             }
 
             var token = _userService.GenerateJwtToken(user);
@@ -36,9 +37,16 @@ namespace NegotiationApp.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
         {
-            var user = new User(registerDto.Username, null);
-            await _userService.AddUserAsync(user, registerDto.Password);
-            return Ok();
+            try
+            {
+                var user = new User(registerDto.Username, null);
+                await _userService.AddUserAsync(user, registerDto.Password);
+                return Ok();
+            }
+            catch (InvalidOperationException ex) when (ex.Message == "Username already exists.")
+            {
+                return BadRequest(new { message = "username already exists" });
+            }
         }
     }
 }

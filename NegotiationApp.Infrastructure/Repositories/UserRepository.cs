@@ -33,5 +33,10 @@ namespace NegotiationApp.Infrastructure.Repositories
         {
             return await _context.Users.SingleOrDefaultAsync(x => x.Username == username);
         }
+
+        public async Task<bool> UsernameExistsAsync(string username)
+        {
+            return await _context.Users.AnyAsync(x => x.Username == username);
+        }
     }
 }

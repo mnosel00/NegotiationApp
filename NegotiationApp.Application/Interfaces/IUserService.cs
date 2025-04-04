@@ -10,7 +10,7 @@ namespace NegotiationApp.Application.Interfaces
     public interface IUserService
     {
         Task AddUserAsync(User user, string password);
-        Task<User> AuthenticateAsync(string username, string password);
+        Task<(User user, string error)> AuthenticateAsync(string username, string password);
         string GenerateJwtToken(User user);
     }
 }

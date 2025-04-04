@@ -12,5 +12,6 @@ namespace NegotiationApp.Domain.Interfaces
         Task AddAsync(User user);
         Task<User> AuthenticateAsync(string username, string password);
         Task<User> GetByUsernameAsync(string username);
+        Task<bool> UsernameExistsAsync(string username);
     }
 }
