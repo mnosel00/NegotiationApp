@@ -3,13 +3,9 @@ using Microsoft.IdentityModel.Tokens;
 using NegotiationApp.Application.Interfaces;
 using NegotiationApp.Domain.Entities;
 using NegotiationApp.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 
 namespace NegotiationApp.Application.Services
@@ -29,12 +25,13 @@ namespace NegotiationApp.Application.Services
         public async Task<(User user, string error)> AuthenticateAsync(string username, string password)
         {
             var user = await _userRepository.GetByUsernameAsync(username);
+            
             if (user == null || _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password) == PasswordVerificationResult.Failed)
             {
-                return (null, "username or password is incorrect");
+                return (null!, "username or password is incorrect");
             }
 
-            return (user,null);
+            return (user, null!);
         }
 
         public async Task AddUserAsync(User user, string password)
@@ -45,6 +42,7 @@ namespace NegotiationApp.Application.Services
             }
 
             user.SetPasswordHash(_passwordHasher.HashPassword(user, password));
+           
             await _userRepository.AddAsync(user);
         }
 
@@ -57,6 +55,7 @@ namespace NegotiationApp.Application.Services
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(

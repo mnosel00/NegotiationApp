@@ -2,11 +2,6 @@
 using NegotiationApp.Domain.Entities;
 using NegotiationApp.Domain.Interfaces;
 using NegotiationApp.Infrastructure.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NegotiationApp.Infrastructure.Repositories
 {
@@ -21,15 +16,16 @@ namespace NegotiationApp.Infrastructure.Repositories
         public async Task AddAsync(User user)
         {
             await _context.Users.AddAsync(user);
+            
             await _context.SaveChangesAsync();
         }
 
-        public async Task<User> AuthenticateAsync(string username, string password)
+        public async Task<User?> AuthenticateAsync(string username, string password)
         {
             return await _context.Users.SingleOrDefaultAsync(x => x.Username == username && x.PasswordHash == password);
         }
 
-        public async Task<User> GetByUsernameAsync(string username)
+        public async Task<User?> GetByUsernameAsync(string username)
         {
             return await _context.Users.SingleOrDefaultAsync(x => x.Username == username);
         }

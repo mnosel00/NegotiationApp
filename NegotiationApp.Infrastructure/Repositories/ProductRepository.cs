@@ -2,11 +2,6 @@
 using NegotiationApp.Domain.Entities;
 using NegotiationApp.Domain.Interfaces;
 using NegotiationApp.Infrastructure.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NegotiationApp.Infrastructure.Repositories
 {
@@ -22,6 +17,7 @@ namespace NegotiationApp.Infrastructure.Repositories
         public async Task AddAsync(Product product)
         {
             await _context.Products.AddAsync(product);
+            
             await _context.SaveChangesAsync();
         }
 

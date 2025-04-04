@@ -52,8 +52,13 @@ namespace NegotiationApp.Tests
             var response = await _client.PostAsync("/api/Auth/login", content);
             var responseString = await response.Content.ReadAsStringAsync();
 
-            var token = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseString)["token"];
-            return token;
+            var tokenResponse = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseString);
+            if (tokenResponse != null && tokenResponse.TryGetValue("token", out var token))
+            {
+                return token;
+            }
+
+            throw new Exception("Token not found in the response");
         }
     }
 }

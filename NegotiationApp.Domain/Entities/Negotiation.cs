@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NegotiationApp.Domain.Enums;
 
 namespace NegotiationApp.Domain.Entities
 {
@@ -11,7 +7,7 @@ namespace NegotiationApp.Domain.Entities
         private const int MaxAttempts = 3;
         private const int ExpirationDays = 7;
 
-        public int Id { get; private set; }
+        public int Id { get;}
         public int ProductId { get; private set; }
         public decimal ProposedPrice { get; private set; }
         public DateTime ProposedAt { get; private set; }
@@ -61,13 +57,11 @@ namespace NegotiationApp.Domain.Entities
                 throw new InvalidOperationException("Only pending negotiations can be rejected.");
 
             if (Attempts >= MaxAttempts)
-            {
                 Status = NegotiationStatus.Expired;
-            }
+            
             else
-            {
                 Status = NegotiationStatus.Rejected;
-            }
+            
         }
 
         public TimeSpan CheckExpiration()
@@ -75,22 +69,18 @@ namespace NegotiationApp.Domain.Entities
             if (Status == NegotiationStatus.Pending)
             {
                 var timeRemaining = ProposedAt.AddDays(ExpirationDays) - DateTime.UtcNow;
+               
                 if (timeRemaining.TotalDays <= 0)
                 {
                     Status = NegotiationStatus.Expired;
                 }
+                
                 return timeRemaining;
             }
             return TimeSpan.Zero;
         }
     }
 
-    public enum NegotiationStatus
-    {
-        Pending,
-        Accepted,
-        Rejected,
-        Expired
-    }
+   
 }
 

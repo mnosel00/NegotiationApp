@@ -1,11 +1,6 @@
 ﻿using FluentAssertions;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace NegotiationApp.Tests
 {
@@ -52,7 +47,9 @@ namespace NegotiationApp.Tests
             var response = await _client.PostAsync("/api/Auth/login", content);
             var responseString = await response.Content.ReadAsStringAsync();
 
-            var token = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseString)["token"];
+            var tokenResponse = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseString);
+            var token = tokenResponse != null && tokenResponse.ContainsKey("token") ? tokenResponse["token"] : string.Empty;
+            
             return token;
         }
     }

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NegotiationApp.Application.DTOs;
 using NegotiationApp.Application.Interfaces;
@@ -22,6 +21,7 @@ namespace NegotiationApp.API.Controllers
         public async Task<ActionResult<IEnumerable<NegotiationDto>>> GetAllNegotiations()
         {
             var negotiations = await _negotiationService.GetAllNegotiationsAsync();
+            
             return Ok(negotiations);
         }
 
@@ -35,6 +35,7 @@ namespace NegotiationApp.API.Controllers
             }
 
             var (isSuccess, errorMessage) = await _negotiationService.AddNegotiationAsync(negotiationDto);
+            
             if (!isSuccess)
             {
                 return BadRequest(new { message = errorMessage });
@@ -48,6 +49,7 @@ namespace NegotiationApp.API.Controllers
         public async Task<ActionResult<NegotiationDto>> GetNegotiationById(int id)
         {
             var negotiation = await _negotiationService.GetNegotiationByIdAsync(id);
+            
             if (negotiation == null)
             {
                 return NotFound();
@@ -61,6 +63,7 @@ namespace NegotiationApp.API.Controllers
         public async Task<IActionResult> ProposeNewPrice(int id, [FromBody] decimal newPrice)
         {
             var (isSuccess, errorMessage) = await _negotiationService.ProposeNewPriceAsync(id, newPrice);
+            
             if (!isSuccess)
             {
                 return BadRequest(new { message = errorMessage });
@@ -74,6 +77,7 @@ namespace NegotiationApp.API.Controllers
         public async Task<IActionResult> AcceptNegotiation(int id)
         {
             var (isSuccess, errorMessage) = await _negotiationService.AcceptNegotiationAsync(id);
+            
             if (!isSuccess)
             {
                 return BadRequest(new { message = errorMessage });
@@ -87,6 +91,7 @@ namespace NegotiationApp.API.Controllers
         public async Task<IActionResult> RejectNegotiation(int id)
         {
             var (isSuccess, errorMessage) = await _negotiationService.RejectNegotiationAsync(id);
+            
             if (!isSuccess)
             {
                 return BadRequest(new { message = errorMessage });
@@ -102,6 +107,7 @@ namespace NegotiationApp.API.Controllers
             try
             {
                 var timeRemaining = await _negotiationService.CheckExpirationAsync(id);
+                
                 return Ok(timeRemaining);
             }
             catch (KeyNotFoundException)

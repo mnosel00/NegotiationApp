@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using NegotiationApp.Application.DTOs;
 using NegotiationApp.Application.Interfaces;
 using NegotiationApp.Domain.Entities;
-using System.CodeDom.Compiler;
 
 namespace NegotiationApp.API.Controllers
 {
@@ -11,7 +9,6 @@ namespace NegotiationApp.API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        
         private readonly IUserService _userService;
 
         public AuthController(IUserService userService)
@@ -24,13 +21,13 @@ namespace NegotiationApp.API.Controllers
         {
             var (user, error) = await _userService.AuthenticateAsync(loginDto.Username, loginDto.Password);
 
-
             if (user == null)
             {
                 return BadRequest(new { message = error });
             }
 
             var token = _userService.GenerateJwtToken(user);
+
             return Ok(new { token });
         }
 
@@ -40,7 +37,9 @@ namespace NegotiationApp.API.Controllers
             try
             {
                 var user = new User(registerDto.Username, null);
+                
                 await _userService.AddUserAsync(user, registerDto.Password);
+                
                 return Ok();
             }
             catch (InvalidOperationException ex) when (ex.Message == "Username already exists.")

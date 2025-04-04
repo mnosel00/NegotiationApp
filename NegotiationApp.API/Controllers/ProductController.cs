@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NegotiationApp.Application.DTOs;
 using NegotiationApp.Application.Interfaces;
@@ -22,6 +21,7 @@ namespace NegotiationApp.API.Controllers
         public async Task<ActionResult<IEnumerable<ProductDto>>> GetAllProducts()
         {
             var products = await _productService.GetAllProductsAsync();
+            
             return Ok(products);
         }
 
@@ -30,6 +30,7 @@ namespace NegotiationApp.API.Controllers
         public async Task<ActionResult<ProductDto>> GetProductById(int id)
         {
             var product = await _productService.GetProductByIdAsync(id);
+            
             if (product == null)
             {
                 return NotFound(new { message = "Product not found" });
@@ -48,6 +49,7 @@ namespace NegotiationApp.API.Controllers
             }
 
             var (isSuccess, errorMessage) = await _productService.AddProductAsync(productDto);
+            
             if (!isSuccess)
             {
                 return BadRequest(new { message = errorMessage });

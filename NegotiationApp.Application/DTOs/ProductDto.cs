@@ -10,8 +10,8 @@ namespace NegotiationApp.Application.DTOs
 {
     public class ProductDto
     {
-        public string Name { get; }
-        public decimal Price { get; }
+        public string Name { get; private set; }
+        public decimal Price { get; private set; }
 
         public ProductDto(string name, decimal price)
         {
