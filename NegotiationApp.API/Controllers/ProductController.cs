@@ -32,7 +32,7 @@ namespace NegotiationApp.API.Controllers
             var product = await _productService.GetProductByIdAsync(id);
             if (product == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Product not found" });
             }
 
             return Ok(product);
@@ -47,7 +47,12 @@ namespace NegotiationApp.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            await _productService.AddProductAsync(productDto);
+            var (isSuccess, errorMessage) = await _productService.AddProductAsync(productDto);
+            if (!isSuccess)
+            {
+                return BadRequest(new { message = errorMessage });
+            }
+
             return CreatedAtAction(nameof(GetProductById), new { id = productDto.Name }, productDto);
         }
     }

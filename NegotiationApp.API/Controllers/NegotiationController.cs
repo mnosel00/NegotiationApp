@@ -34,7 +34,12 @@ namespace NegotiationApp.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            await _negotiationService.AddNegotiationAsync(negotiationDto);
+            var (isSuccess, errorMessage) = await _negotiationService.AddNegotiationAsync(negotiationDto);
+            if (!isSuccess)
+            {
+                return BadRequest(new { message = errorMessage });
+            }
+
             return CreatedAtAction(nameof(GetNegotiationById), new { id = negotiationDto.ProductId }, negotiationDto);
         }
 
@@ -55,57 +60,39 @@ namespace NegotiationApp.API.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ProposeNewPrice(int id, [FromBody] decimal newPrice)
         {
-            try
+            var (isSuccess, errorMessage) = await _negotiationService.ProposeNewPriceAsync(id, newPrice);
+            if (!isSuccess)
             {
-                await _negotiationService.ProposeNewPriceAsync(id, newPrice);
-                return NoContent();
+                return BadRequest(new { message = errorMessage });
             }
-            catch (KeyNotFoundException)
-            {
-                return NotFound();
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+
+            return NoContent();
         }
 
         [HttpPut("{id}/accept")]
         [Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> AcceptNegotiation(int id)
         {
-            try
+            var (isSuccess, errorMessage) = await _negotiationService.AcceptNegotiationAsync(id);
+            if (!isSuccess)
             {
-                await _negotiationService.AcceptNegotiationAsync(id);
-                return NoContent();
+                return BadRequest(new { message = errorMessage });
             }
-            catch (KeyNotFoundException)
-            {
-                return NotFound();
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+
+            return NoContent();
         }
 
         [HttpPut("{id}/reject")]
         [Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> RejectNegotiation(int id)
         {
-            try
+            var (isSuccess, errorMessage) = await _negotiationService.RejectNegotiationAsync(id);
+            if (!isSuccess)
             {
-                await _negotiationService.RejectNegotiationAsync(id);
-                return NoContent();
+                return BadRequest(new { message = errorMessage });
             }
-            catch (KeyNotFoundException)
-            {
-                return NotFound();
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+
+            return NoContent();
         }
 
         [HttpPut("{id}/check-expiration")]

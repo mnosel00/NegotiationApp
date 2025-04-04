@@ -19,18 +19,33 @@ namespace NegotiationApp.Application.Services
             _negotiationRepository = negotiationRepository;
         }
 
-        public async Task AcceptNegotiationAsync(int id)
+        public async Task<(bool isSuccess, string errorMessage)> AcceptNegotiationAsync(int id)
         {
-            var negotiation = await _negotiationRepository.GetByIdAsync(id);
-
-            negotiation.Accept();
-            await _negotiationRepository.UpdateAsync(negotiation);
+            try
+            {
+                var negotiation = await _negotiationRepository.GetByIdAsync(id);
+                negotiation.Accept();
+                await _negotiationRepository.UpdateAsync(negotiation);
+                return (true, string.Empty);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return (false, ex.Message);
+            }
         }
 
-        public async Task AddNegotiationAsync(CreateNegotiationDto negotiationDto)
+        public async Task<(bool isSuccess, string errorMessage)> AddNegotiationAsync(CreateNegotiationDto negotiationDto)
         {
-            var negotiation = new Negotiation(negotiationDto.ProductId, negotiationDto.ProposedPrice);
-            await _negotiationRepository.AddAsync(negotiation);
+            try
+            {
+                var negotiation = new Negotiation(negotiationDto.ProductId, negotiationDto.ProposedPrice);
+                await _negotiationRepository.AddAsync(negotiation);
+                return (true, string.Empty);
+            }
+            catch (ArgumentException ex)
+            {
+                return (false, ex.Message);
+            }
         }
 
         public async Task<TimeSpan> CheckExpirationAsync(int id)
@@ -55,20 +70,38 @@ namespace NegotiationApp.Application.Services
             return new NegotiationDto(negotiation.ProductId, negotiation.ProposedPrice, negotiation.ProposedAt, negotiation.Attempts, negotiation.Status.ToString());
         }
 
-        public async Task ProposeNewPriceAsync(int id, decimal newPrice)
+        public async Task<(bool isSuccess, string errorMessage)> ProposeNewPriceAsync(int id, decimal newPrice)
         {
-            var negotiation = await _negotiationRepository.GetByIdAsync(id);
-
-            negotiation.ProposeNewPrice(newPrice);
-            await _negotiationRepository.UpdateAsync(negotiation);
+            try
+            {
+                var negotiation = await _negotiationRepository.GetByIdAsync(id);
+                negotiation.ProposeNewPrice(newPrice);
+                await _negotiationRepository.UpdateAsync(negotiation);
+                return (true, string.Empty);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return (false, ex.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                return (false, ex.Message);
+            }
         }
 
-        public async Task RejectNegotiationAsync(int id)
+        public async Task<(bool isSuccess, string errorMessage)> RejectNegotiationAsync(int id)
         {
-            var negotiation = await _negotiationRepository.GetByIdAsync(id);
-            
-            negotiation.Reject();
-            await _negotiationRepository.UpdateAsync(negotiation);
+            try
+            {
+                var negotiation = await _negotiationRepository.GetByIdAsync(id);
+                negotiation.Reject();
+                await _negotiationRepository.UpdateAsync(negotiation);
+                return (true, string.Empty);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return (false, ex.Message);
+            }
         }
     }
 }

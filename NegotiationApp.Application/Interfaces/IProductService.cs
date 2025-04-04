@@ -12,6 +12,6 @@ namespace NegotiationApp.Application.Interfaces
     {
         Task<IEnumerable<ProductDto>> GetAllProductsAsync();
         Task<ProductDto?> GetProductByIdAsync(int id);
-        Task AddProductAsync(ProductDto productDto);
+        Task<(bool isSuccess, string errorMessage)> AddProductAsync(ProductDto productDto);
     }
 }

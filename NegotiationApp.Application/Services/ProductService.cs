@@ -19,10 +19,18 @@ namespace NegotiationApp.Application.Services
             _productRepository = productRepository;
         }
 
-        public async Task AddProductAsync(ProductDto productDto)
+        public async Task<(bool isSuccess, string errorMessage)> AddProductAsync(ProductDto productDto)
         {
-            var product = new Product(productDto.Name, productDto.Price);
-            await _productRepository.AddAsync(product);
+            try
+            {
+                var product = new Product(productDto.Name, productDto.Price);
+                await _productRepository.AddAsync(product);
+                return (true, string.Empty);
+            }
+            catch (ArgumentException ex)
+            {
+                return (false, ex.Message);
+            }
         }
 
         public async Task<IEnumerable<ProductDto>> GetAllProductsAsync()
@@ -34,6 +42,10 @@ namespace NegotiationApp.Application.Services
         public async Task<ProductDto?> GetProductByIdAsync(int id)
         {
             var product = await _productRepository.GetByIdAsync(id);
+            if (product == null)
+            {
+                return null;
+            }
             return new ProductDto(product.Name, product.Price);
         }
     }
