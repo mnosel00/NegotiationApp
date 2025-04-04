@@ -23,5 +23,10 @@ namespace NegotiationApp.Infrastructure.Repositories
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<User> AuthenticateAsync(string username, string password)
+        {
+            return await _context.Users.SingleOrDefaultAsync(x => x.Username == username && x.PasswordHash == password);
+        }
     }
 }

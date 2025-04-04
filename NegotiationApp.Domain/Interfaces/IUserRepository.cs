@@ -10,6 +10,6 @@ namespace NegotiationApp.Domain.Interfaces
     public interface IUserRepository
     {
         Task AddAsync(User user);
-        
+        Task<User> AuthenticateAsync(string username, string password);
     }
 }
