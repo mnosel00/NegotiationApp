@@ -53,7 +53,7 @@ namespace NegotiationApp.Application.Services
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Username),
-                new Claim(ClaimTypes.Role, "admin")
+                new Claim(ClaimTypes.Role, "Admin")
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
