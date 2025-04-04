@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using NegotiationApp.Infrastructure.Data;
 using System;
@@ -18,7 +20,7 @@ namespace NegotiationApp.Tests
             builder.UseEnvironment("Testing");
             builder.ConfigureServices(services =>
             {
-                var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<NegotiationDbContext>));
+                var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(IDbContextOptionsConfiguration<NegotiationDbContext>));
                 if (descriptor != null)
                 {
                     services.Remove(descriptor);
