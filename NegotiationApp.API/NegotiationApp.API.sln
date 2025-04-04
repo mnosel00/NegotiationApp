@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NegotiationApp.API", "NegotiationApp.API.csproj", "{00068C3A-3B9E-4F02-B895-F64AEA4E708F}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NegotiationApp.Domain", "..\NegotiationApp.Domain\NegotiationApp.Domain.csproj", "{9085D08C-0596-4C57-8D01-E40774FD4F0E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NegotiationApp.Infrastructure", "..\NegotiationApp.Infrastructure\NegotiationApp.Infrastructure.csproj", "{9DDD8224-CA0F-4FC9-9006-E950E0EE575A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NegotiationApp.Tests", "..\NegotiationApp.Tests\NegotiationApp.Tests.csproj", "{F84BBC39-2099-4779-AB15-BA13B65508A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{9DDD8224-CA0F-4FC9-9006-E950E0EE575A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DDD8224-CA0F-4FC9-9006-E950E0EE575A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DDD8224-CA0F-4FC9-9006-E950E0EE575A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F84BBC39-2099-4779-AB15-BA13B65508A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F84BBC39-2099-4779-AB15-BA13B65508A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F84BBC39-2099-4779-AB15-BA13B65508A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F84BBC39-2099-4779-AB15-BA13B65508A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
