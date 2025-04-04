@@ -5,12 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NegotiationApp.Domain.Interfaces
+namespace NegotiationApp.Application.Interfaces
 {
-    public interface IUserRepository
+    public interface IUserService
     {
-        Task AddAsync(User user);
+        Task AddUserAsync(User user, string password);
         Task<User> AuthenticateAsync(string username, string password);
-        Task<User> GetByUsernameAsync(string username);
+        string GenerateJwtToken(User user);
     }
 }

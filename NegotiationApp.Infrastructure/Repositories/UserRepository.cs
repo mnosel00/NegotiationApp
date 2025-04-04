@@ -28,5 +28,10 @@ namespace NegotiationApp.Infrastructure.Repositories
         {
             return await _context.Users.SingleOrDefaultAsync(x => x.Username == username && x.PasswordHash == password);
         }
+
+        public async Task<User> GetByUsernameAsync(string username)
+        {
+            return await _context.Users.SingleOrDefaultAsync(x => x.Username == username);
+        }
     }
 }

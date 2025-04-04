@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using NegotiationApp.Application.Interfaces;
 using NegotiationApp.Application.Services;
+using NegotiationApp.Domain.Entities;
 using NegotiationApp.Domain.Interfaces;
 using NegotiationApp.Infrastructure.Data;
 using NegotiationApp.Infrastructure.Repositories;
@@ -24,6 +26,11 @@ builder.Services.AddScoped<IProductService, ProductService>();
 
 builder.Services.AddScoped<INegotiationRepository, NegotiationRepository>();
 builder.Services.AddScoped<INegotiationService, NegotiationService>();
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
