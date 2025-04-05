@@ -1,11 +1,11 @@
 ﻿using NegotiationApp.Domain.Enums;
+using System.Diagnostics;
 
 namespace NegotiationApp.Domain.Entities
 {
     public class Negotiation
     {
         private const int MaxAttempts = 3;
-        private const int ExpirationDays = 7;
 
         public int Id { get; private set; }
         public int ProductId { get; private set; }
@@ -58,32 +58,34 @@ namespace NegotiationApp.Domain.Entities
 
             if (Attempts >= MaxAttempts)
                 Status = NegotiationStatus.Expired;
-            
             else
                 Status = NegotiationStatus.Rejected;
             
         }
 
-        public void Expire()
-        {
-            if (Status == NegotiationStatus.Rejected)
-                Status = NegotiationStatus.Expired;
-            
-        }
-
         public TimeSpan CheckExpiration()
         {
-            if (Status == NegotiationStatus.Pending)
-            {
-                var timeRemaining = ProposedAt.AddDays(7) - DateTime.UtcNow;
+            var expirationTime = ProposedAt.AddDays(7);
+            var timeRemaining = expirationTime - DateTime.UtcNow;
 
-                if (timeRemaining.TotalDays <= 0)
-                    Expire();
-                
-                
-                return timeRemaining;
+            Debug.WriteLine($"ProposedAt: {ProposedAt}");
+            Debug.WriteLine($"ExpirationTime: {expirationTime}");
+            Debug.WriteLine($"TimeRemaining: {timeRemaining}");
+
+            if (timeRemaining <= TimeSpan.Zero)
+            {
+                Expire();
+                Debug.WriteLine("Negotiation expired.");
+                return TimeSpan.Zero;
             }
-            return TimeSpan.Zero;
+
+            return timeRemaining;
+        }
+        public void Expire()
+        {
+            Status = NegotiationStatus.Expired;
+            Debug.WriteLine("Status set to Expired.");
+
         }
     }
 

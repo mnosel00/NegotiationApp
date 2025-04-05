@@ -3,6 +3,7 @@ using NegotiationApp.Application.Interfaces;
 using NegotiationApp.Domain.Entities;
 using NegotiationApp.Domain.Enums;
 using NegotiationApp.Domain.Interfaces;
+using System.Diagnostics;
 
 
 namespace NegotiationApp.Application.Services
@@ -58,13 +59,14 @@ namespace NegotiationApp.Application.Services
 
             if (negotiation == null)
                 throw new InvalidOperationException("Negotiation not found.");
-            
 
             var timeRemaining = negotiation.CheckExpiration();
 
-            if (negotiation.Status == NegotiationStatus.Rejected)  
+            Debug.WriteLine($"Negotiation Status: {negotiation.Status}");
+            Debug.WriteLine($"Time Remaining: {timeRemaining}");
+
+            if (negotiation.Status == NegotiationStatus.Expired)
                 await _negotiationRepository.UpdateAsync(negotiation);
-          
 
             return timeRemaining;
         }
