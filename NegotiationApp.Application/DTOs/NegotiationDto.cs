@@ -10,11 +10,11 @@ namespace NegotiationApp.Application.DTOs
 {
     public class NegotiationDto
     {
-        public int ProductId { get; }
-        public decimal ProposedPrice { get; }
-        public DateTime ProposedAt { get; }
-        public int Attempts { get; }
-        public string Status { get; }
+        public int ProductId { get; private set; }
+        public decimal ProposedPrice { get; private set; }
+        public DateTime ProposedAt { get; private set; }
+        public int Attempts { get; private set; }
+        public string Status { get; private set; }
 
         public NegotiationDto(int productId, decimal proposedPrice, DateTime proposedAt, int attempts, string status)
         {

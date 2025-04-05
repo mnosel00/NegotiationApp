@@ -7,7 +7,7 @@ namespace NegotiationApp.Domain.Entities
         private const int MaxAttempts = 3;
         private const int ExpirationDays = 7;
 
-        public int Id { get;}
+        public int Id { get; private set; }
         public int ProductId { get; private set; }
         public decimal ProposedPrice { get; private set; }
         public DateTime ProposedAt { get; private set; }
