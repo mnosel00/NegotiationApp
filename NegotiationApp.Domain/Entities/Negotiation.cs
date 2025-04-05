@@ -64,16 +64,22 @@ namespace NegotiationApp.Domain.Entities
             
         }
 
+        public void Expire()
+        {
+            if (Status == NegotiationStatus.Rejected)
+                Status = NegotiationStatus.Expired;
+            
+        }
+
         public TimeSpan CheckExpiration()
         {
             if (Status == NegotiationStatus.Pending)
             {
-                var timeRemaining = ProposedAt.AddDays(ExpirationDays) - DateTime.UtcNow;
-               
+                var timeRemaining = ProposedAt.AddDays(7) - DateTime.UtcNow;
+
                 if (timeRemaining.TotalDays <= 0)
-                {
-                    Status = NegotiationStatus.Expired;
-                }
+                    Expire();
+                
                 
                 return timeRemaining;
             }

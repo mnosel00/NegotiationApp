@@ -101,7 +101,7 @@ namespace NegotiationApp.API.Controllers
         }
 
         [HttpPut("{id}/check-expiration")]
-        [Authorize(Policy = "AdminPolicy")]
+        [AllowAnonymous]
         public async Task<ActionResult<TimeSpan>> CheckExpiration(int id)
         {
             try
@@ -110,9 +110,9 @@ namespace NegotiationApp.API.Controllers
                 
                 return Ok(timeRemaining);
             }
-            catch (KeyNotFoundException)
+            catch (InvalidOperationException ex)
             {
-                return NotFound();
+                return BadRequest(new { message = ex.Message });
             }
         }
     }

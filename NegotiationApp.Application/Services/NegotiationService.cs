@@ -1,6 +1,7 @@
 ﻿using NegotiationApp.Application.DTOs;
 using NegotiationApp.Application.Interfaces;
 using NegotiationApp.Domain.Entities;
+using NegotiationApp.Domain.Enums;
 using NegotiationApp.Domain.Interfaces;
 
 
@@ -60,9 +61,11 @@ namespace NegotiationApp.Application.Services
             
 
             var timeRemaining = negotiation.CheckExpiration();
-            
-            await _negotiationRepository.UpdateAsync(negotiation);
-            
+
+            if (negotiation.Status == NegotiationStatus.Rejected)  
+                await _negotiationRepository.UpdateAsync(negotiation);
+          
+
             return timeRemaining;
         }
 
