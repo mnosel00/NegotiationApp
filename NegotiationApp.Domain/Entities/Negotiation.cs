@@ -1,5 +1,4 @@
 ﻿using NegotiationApp.Domain.Enums;
-using System.Diagnostics;
 
 namespace NegotiationApp.Domain.Entities
 {
@@ -68,24 +67,18 @@ namespace NegotiationApp.Domain.Entities
             var expirationTime = ProposedAt.AddDays(7);
             var timeRemaining = expirationTime - DateTime.UtcNow;
 
-            Debug.WriteLine($"ProposedAt: {ProposedAt}");
-            Debug.WriteLine($"ExpirationTime: {expirationTime}");
-            Debug.WriteLine($"TimeRemaining: {timeRemaining}");
-
             if (timeRemaining <= TimeSpan.Zero)
             {
                 Expire();
-                Debug.WriteLine("Negotiation expired.");
                 return TimeSpan.Zero;
             }
 
             return timeRemaining;
         }
+
         public void Expire()
         {
             Status = NegotiationStatus.Expired;
-            Debug.WriteLine("Status set to Expired.");
-
         }
     }
 
